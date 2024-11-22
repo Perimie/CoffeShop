@@ -49,7 +49,12 @@
               </button>
             <ul tabindex="0" class="dropdown-content menu bg-neutral rounded-box z-[1] w-52 p-2 shadow">
               <li><a class="" href="">Profile</a></li>
-              <li><a class="" href="">Logout</a></li>
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+        
+                <li><input type="submit" value="Logout"></li>
+               
+            </form>
             </ul>
         </div>
     </div>
@@ -135,6 +140,7 @@
                 </div>
             </div>
         </div>
-    </div>     
+    </div> 
+    
 </body>
 </html>

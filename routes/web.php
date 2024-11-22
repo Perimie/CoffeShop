@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'loginPage']);
 
 //Route::get('/', [HomeController::class, 'index']);
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+route::get('dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
