@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     
     @vite('resources/css/app.css')
     
@@ -58,17 +57,20 @@
             <div class="drawer-side bg-base-200">
                 <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
                 <ul class="menu text-base-content min-h-full w-80 p-4">
+                    <!-- Sidebar content -->
+                    <li><a href="{{ route('home') }}" 
+                        class="text-xl font-bold">
+                        Home
+                     </a></li>
                     <li>
-                        <a href="{{ route('home') }}" 
-                           class="text-xl font-bold  bg-neutral text-base-100">
-                           Home
+                        <a href="{{ route('category') }}" 
+                           class="text-xl font-bold {{ request()->routeIs('category') ? 'bg-neutral text-base-100' : '' }}">
+                           Category
                         </a>
                     </li>
-                    <li><a href="{{ route('category') }}" class="text-xl font-bold">Category</a></li>
                     <li><a class="text-xl font-bold">Products</a></li>
                     <li><a class="text-xl font-bold">Orders</a></li>
                 </ul>
-                
             </div>
         </div>
 
@@ -78,7 +80,50 @@
         <!-- Start Dashboard Section -->
         <div class="flex-1 bg-base-300">
             
-           
+            <div class="overflow-x-auto m-8">
+
+                
+
+                <div class="justify-center mb-5">
+                    <h1 class="text-3xl mb-4">
+                        Add Category
+                    </h1>
+                    <form action="{{url('add_category')}}" method="POST">
+                        @csrf
+                        <input type="text" placeholder="Type here" class="input w-full max-w-xs" name="category" />
+                        <input class="btn btn-primary" type="submit" value="Add Category">
+                    </form>
+                </div>
+                <table class="table">
+                  <!-- head -->
+                  <thead>
+                    <tr class="bg-neutral">
+                      
+                      <th class="text-lg font-bold text-base-100" text-base-100>Category</th>
+                      <th class="text-lg text-base-100">Edit</th>
+                      <th class="text-lg text-base-100">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- row -->
+
+                    @foreach ($data as $category)
+                    <tr>
+                        <td>{{$category->category_name}}</td>
+                        <td>
+                            <button class="btn btn-success"> 
+                                Edit
+                            </button>
+                        </td>
+                        <td>
+                            <a href="" class="btn btn-error">Delete</a>
+                        </td>
+                      </tr>
+                    @endforeach
+                    
+                  </tbody>
+                </table>
+              </div>
 
         </div>
         <!-- end Dashboard Section -->

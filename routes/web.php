@@ -23,3 +23,10 @@ require __DIR__.'/auth.php';
 
 
 route::get('admin/dashboard', [AdminContoller::class, 'index'])->middleware(['auth','admin']);
+
+
+route::get('/home', [AdminContoller::class, 'home'])->middleware(['auth','admin'])->name('home');
+
+route::get('/category', [AdminContoller::class, 'category'])->middleware(['auth','admin'])->name('category');
+
+route::post('add_category', [AdminContoller::class, 'add_category'])->middleware(['auth','admin']);
