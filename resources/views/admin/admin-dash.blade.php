@@ -65,7 +65,7 @@
                         </a>
                     </li>
                     <li><a href="{{ route('category') }}" class="text-xl font-bold">Category</a></li>
-                    <li><a class="text-xl font-bold">Products</a></li>
+                    <li><a href="{{route('products')}}" class="text-xl font-bold">Products</a></li>
                     <li><a class="text-xl font-bold">Orders</a></li>
                 </ul>
                 

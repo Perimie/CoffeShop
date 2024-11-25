@@ -64,11 +64,12 @@
                      </a></li>
                     <li>
                         <a href="{{ route('category') }}" 
-                           class="text-xl font-bold {{ request()->routeIs('category') ? 'bg-neutral text-base-100' : '' }}">
+                        class="text-xl font-bold">
                            Category
                         </a>
                     </li>
-                    <li><a href="{{route('products')}}" class="text-xl font-bold">Products</a></li>
+                    <li><a href="{{ route('products') }}" 
+                        class="text-xl font-bold {{ request()->routeIs('products') ? 'bg-neutral text-base-100' : '' }}" class="text-xl font-bold">Products</a></li>
                     <li><a class="text-xl font-bold">Orders</a></li>
                 </ul>
             </div>
@@ -80,68 +81,95 @@
         <!-- Start Dashboard Section -->
         <div class="flex-1 bg-base-300">
             
+
             <div class="overflow-x-auto m-8">
-                <div class="justify-center mb-5">
-                    <h1 class="text-3xl mb-4">
-                        Add Category
-                    </h1>
-                    <form action="{{url('add_category')}}" method="POST">
-                        @csrf
-                        <input type="text" placeholder="Type here" class="input w-full max-w-xs" name="category" required />
-                        <input class="btn btn-primary" type="submit" value="Add Category">
-                    </form>
-                </div>
-                <table class="table">
-                  <!-- head -->
-                  <thead>
-                    <tr class="bg-neutral">
-                      
-                      <th class="text-lg font-bold text-base-100" text-base-100>Category</th>
-                      <th class="text-lg text-base-100">Edit</th>
-                      <th class="text-lg text-base-100">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- row -->
 
-                    @foreach ($data as $category)
-                    <tr>
-                        <td>{{$category->category_name}}</td>
-                        <td>
-                                                    <!-- Button -->
-                        <button class="btn btn-success" onclick="openModal('my_modal_1')">Edit</button>
-
-                        <!-- Modal -->
-                        <dialog id="my_modal_1" class="modal">
-                            <div class="modal-box">
-
-                              <form action="{{url('edit_category/' . $category->id)}}" method="POST">
-                                @csrf
-                                <div class="flex flex-col mb-5">
-                                    <label class="mb-5 text-lg font-bold" for="editCategoryName">Category Name:</label>
-                                    <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" id="editCategoryName"
-                                     name="category" required>
-                                </div>
-                                <button type="submit" class="btn btn-success">Save</button>
-                            </form>
-                              <div class="modal-action">
-                                <button class="btn btn-error" onclick="closeModal('my_modal_1')">Close</button>
-                              </div>
-
-                                
+                <button class="btn btn-success mb-5 float-right " onclick="openModal('my_modal_1')">Add Product</button>
+                {{-- Modal --}}
+                <dialog id="my_modal_1" class="modal">
+                    <div class="modal-box">
+                        <form action="{{url('add_product')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="flex flex-col mb-2">
+                                <label class="mb-2 text-lg font-bold" for="productName">Product Name:</label>
+                                <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" id="productName"
+                                 name="productName" required>
                             </div>
-                        </dialog>
 
-                        </td>
-                        <td>
-                            <a onclick="confirm(event)" href="{{url('delete_category/' . $category->id)}}" class="btn btn-error">Delete</a>
-                        </td>
+                            <div class="flex flex-col mb-2">
+                                <label class="mb-2 text-lg font-bold" for="text-description">Description:</label>
+                                <textarea placeholder="Type here" name="description" class="textarea textarea-bordered textarea-xs w-full max-w-xs" id="text-description" rows="3" required></textarea>
+                            </div>
+
+                            <div class="flex flex-col mb-2">
+                                <label class="mb-2 text-lg font-bold" for="price">Price</label>
+                                <input type="number" placeholder="Type here" class="input input-bordered w-full max-w-xs" id="price"
+                                 name="price" required>
+                            </div>
+
+                            <div class="flex flex-col mb-2">
+                                <div class="input-group-prepend mb-2 text-lg font-bold">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Product Categories</span>
+                                </div>
+
+                                <select required name="category" class="select select-bordered w-full max-w-xs">
+
+                                    <option disabled selected>Categories</option>
+
+                                    @foreach ($category as $categories)
+                                    <option value="{{$categories->category_name}}">{{$categories->category_name}}</option>
+                                    @endforeach
+                                    
+                                </select>
+                            </div>
+
+                            <div class="flex flex-col mb-2">
+                                <div class="input-group-prepend mb-2 text-lg font-bold">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Product Image</span>
+                                </div>
+                                <input name="image" type="file" class="form-control"  aria-label="Default" aria-describedby="inputGroup-sizing-default"  >
+                            </div>
+                            <button type="submit" class="btn btn-success w-28 float-left ">Save</button>
+                        </form>
+                        
+                          <button class="btn btn-error float-right" onclick="closeModal('my_modal_1')">Close</button>
+                      
+                    </div>
+                  </dialog>
+
+
+                <table class="table">
+                    <!-- head -->
+                    <thead>
+                      <tr class="bg-neutral">
+                        
+                        <th class="text-lg font-bold text-base-100" text-base-100>Product Name</th>
+                        <th class="text-lg font-bold text-base-100" text-base-100>Description</th>
+                        <th class="text-lg font-bold text-base-100" text-base-100>Price</th>
+                        <th class="text-lg font-bold text-base-100" text-base-100>Image</th>
+                        <th class="text-lg text-base-100">Edit</th>
+                        <th class="text-lg text-base-100">Delete</th>
                       </tr>
-                    @endforeach
-                    
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      <!-- row -->
+                      <tr>
+                          <td>fafa</td>
+                          <td>fafa</td>
+                          <td>fafa</td>
+                          <td>fafa</td>
+                          <td>                          <!-- Button -->
+                          <button class="btn btn-success" >Edit</button>
+                          </td>
+                          <td>
+                              <a  class="btn btn-error">Delete</a>
+                          </td>
+                        </tr>
+    
+                    </tbody>
+                  </table>
+            </div>
+            
 
         </div>
         <!-- end Dashboard Section -->
@@ -208,48 +236,29 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        {{-- opening modal --}}
-      <script>
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.showModal();
-            } else {
-                console.error('Modal not found:', modalId);
-            }
-        }
-      </script>
-      {{-- Closing modal --}}
 
-      <script>
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.close();
-            }
-        }
-      </script>
-{{-- confirmation --}}
+{{-- opening modal --}}
 <script>
-  function confirm(event) {
-      event.preventDefault();
-
-      var hrefAtt = event.currentTarget.getAttribute('href');
-      Swal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-          if (result.isConfirmed) {
-              window.location.href = hrefAtt;
-          }
-      });
-  }
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.showModal();
+        } else {
+            console.error('Modal not found:', modalId);
+        }
+    }
   </script>
+  {{-- Closing modal --}}
+
+  <script>
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.close();
+        }
+    }
+  </script>
+     
 
 
 
