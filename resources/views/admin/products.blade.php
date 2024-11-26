@@ -62,14 +62,10 @@
                         class="text-xl font-bold">
                         Home
                      </a></li>
-                    <li>
-                        <a href="{{ route('category') }}" 
-                        class="text-xl font-bold">
-                           Category
-                        </a>
-                    </li>
+                   
                     <li><a href="{{ route('products') }}" 
-                        class="text-xl font-bold {{ request()->routeIs('products') ? 'bg-neutral text-base-100' : '' }}" class="text-xl font-bold">Products</a></li>
+                        class="text-xl font-bold {{ request()->routeIs('products') ? 'bg-neutral text-base-100' : '' }}" class="text-xl font-bold">Coffees</a></li>
+                        <li><a href="{{route('snacks')}}" class="text-xl font-bold">Snacks</a></li>
                     <li><a class="text-xl font-bold">Orders</a></li>
                 </ul>
             </div>
@@ -84,7 +80,7 @@
 
             <div class="overflow-x-auto m-8">
 
-                <button class="btn btn-success mb-5 float-right " onclick="openModal('my_modal_1')">Add Product</button>
+                <button class="btn btn-success mb-5 float-right " onclick="openModal('my_modal_1')">Add Coffees</button>
                 {{-- Modal --}}
                 <dialog id="my_modal_1" class="modal">
                     <div class="modal-box">
@@ -109,17 +105,15 @@
 
                             <div class="flex flex-col mb-2">
                                 <div class="input-group-prepend mb-2 text-lg font-bold">
-                                    <span class="input-group-text" id="inputGroup-sizing-default">Product Categories</span>
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Size</span>
                                 </div>
 
-                                <select required name="category" class="select select-bordered w-full max-w-xs">
+                                <select required name="size" class="select select-bordered w-full max-w-xs">
 
-                                    <option disabled selected>Categories</option>
-
-                                    @foreach ($category as $categories)
-                                    <option value="{{$categories->category_name}}">{{$categories->category_name}}</option>
-                                    @endforeach
-                                    
+                                    <option disabled selected>Sizing</option>
+                                    <option>Small</option>
+                                    <option>Medium</option>
+                                    <option>Large</option>
                                 </select>
                             </div>
 
@@ -144,8 +138,8 @@
                       <tr class="bg-neutral">
                         
                         <th class="text-lg font-bold text-base-100" text-base-100>Product Name</th>
-                        <th class="text-lg font-bold text-base-100" text-base-100>Description</th>
                         <th class="text-lg font-bold text-base-100" text-base-100>Price</th>
+                        <th class="text-lg font-bold text-base-100" text-base-100>Size</th>
                         <th class="text-lg font-bold text-base-100" text-base-100>Image</th>
                         <th class="text-lg text-base-100">Edit</th>
                         <th class="text-lg text-base-100">Delete</th>
@@ -153,18 +147,24 @@
                     </thead>
                     <tbody>
                       <!-- row -->
+
+                      @foreach ($coffees as $coffee)
                       <tr>
-                          <td>fafa</td>
-                          <td>fafa</td>
-                          <td>fafa</td>
-                          <td>fafa</td>
-                          <td>                          <!-- Button -->
-                          <button class="btn btn-success" >Edit</button>
-                          </td>
-                          <td>
-                              <a  class="btn btn-error">Delete</a>
-                          </td>
-                        </tr>
+                        <td>{{$coffee->productName}}</td>
+                        <td>₱ {{$coffee->price}}</td>
+                        <td>{{$coffee->size}}</td>
+                        <td><img style="height: 60px" src="items/{{$coffee->image}}" alt="product image"></td>
+                        
+                        <!-- Button -->
+                        <td>                          
+                        <button class="btn btn-success" >Edit</button>
+                        </td>
+                        <td>
+                            <a  class="btn btn-error">Delete</a>
+                        </td>
+                      </tr>
+                      @endforeach
+                      
     
                     </tbody>
                   </table>

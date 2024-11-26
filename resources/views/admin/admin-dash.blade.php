@@ -64,8 +64,8 @@
                            Home
                         </a>
                     </li>
-                    <li><a href="{{ route('category') }}" class="text-xl font-bold">Category</a></li>
-                    <li><a href="{{route('products')}}" class="text-xl font-bold">Products</a></li>
+                    <li><a href="{{route('products')}}" class="text-xl font-bold">Coffees</a></li>
+                    <li><a href="{{route('snacks')}}" class="text-xl font-bold">Snacks</a></li>
                     <li><a class="text-xl font-bold">Orders</a></li>
                 </ul>
                 

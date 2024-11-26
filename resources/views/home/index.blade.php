@@ -9,7 +9,7 @@
   
     <div class="z-10 navbar bg-neutral text-neutral-content">
         <div class="flex-1">
-          <a class="btn btn-ghost text-xl">Mariela's Coffee Shop</a>
+          <a href="{{url('dashboard')}}" class="btn btn-ghost text-xl">Mariela's Coffee Shop</a>
         </div>
         {{-- Cart --}}
         <div class="flex-none">
@@ -84,8 +84,8 @@
                             <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
                             <ul class="menu bg-base-200 text-base-content min-h-96 w-80 p-4">
                                 <!-- Sidebar content here -->
-                                <li><a class="text-2xl font-bold ">Coffees</a></li>
-                                <li><a class="text-2xl font-bold">Snacks</a></li>
+                                <li><a href="{{url('coffee_page')}}" class="text-2xl font-bold ">Coffees</a></li>
+                                <li><a href="{{url('snack_page')}}" class="text-2xl font-bold">Snacks</a></li>
                             </ul>
                             </div>
                         </div>
@@ -101,22 +101,26 @@
         {{-- For Coffees --}}
     <div class="flex w-full flex-col mt-10 ">
         <div class="card bg-base-300 rounded-box grid h-20 place-items-center text-4xl font-bold mb-5">Available Coffees</div>
-        <div class=" flex justify-between columns-4 p-4">
+        <div class=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
             {{-- Card 1 --}}
+            @foreach ($coffees as $coffee)
             <div class="card card-compact bg-base-100 w-72 shadow-xl">
-                <figure>
-                  <img
-                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                    alt="Shoes" />
-                </figure>
-                <div class="card-body">
-                  <h2 class="card-title">Shoes!</h2>
-                  <p>If a dog chews shoes whose shoes does he choose?</p>
-                  <div class="card-actions justify-end">
-                    <button class="btn btn-primary">Buy Now</button>
-                  </div>
+              <figure>
+                <img
+                  src="items/{{$coffee->image}}"
+                  alt="Coffee" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">{{$coffee->productName}}</h2>
+                <p>{{$coffee->description}}</p>
+                <p>₱ {{$coffee->price}}</p>
+                <div class="card-actions justify-end">
+                  <button class="btn btn-primary">Buy Now</button>
                 </div>
-            </div> 
+              </div>
+          </div> 
+            @endforeach
+            
         </div>
 
         <div class="divider"></div>
@@ -124,22 +128,25 @@
         {{-- For Snacks --}}
         <div class="card bg-base-300 rounded-box grid h-20 place-items-center text-4xl font-bold mb-5">Available Snacks</div>
 
-        <div class=" flex justify-between columns-4 p-4">
+        <div class=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
             
-            <div class="card card-compact bg-base-100 w-72 shadow-xl">
-                <figure>
-                  <img
-                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                    alt="Shoes" />
-                </figure>
-                <div class="card-body">
-                  <h2 class="card-title">Shoes!</h2>
-                  <p>If a dog chews shoes whose shoes does he choose?</p>
-                  <div class="card-actions justify-end">
-                    <button class="btn btn-primary">Buy Now</button>
-                  </div>
-                </div>
+          @foreach ($snacks as $snack)
+          <div class="card card-compact bg-base-100 w-72 shadow-xl">
+            <figure>
+              <img
+                src="items/{{$snack->image}}"
+                alt="Coffee" />
+            </figure>
+            <div class="card-body">
+              <h2 class="card-title">{{$snack->productName}}</h2>
+              <p>{{$snack->description}}</p>
+              <p>₱ {{$snack->price}}</p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-primary">Buy Now</button>
+              </div>
             </div>
+        </div> 
+          @endforeach
         </div>
     </div> 
     {{-- footer --}}

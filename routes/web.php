@@ -27,18 +27,27 @@ route::get('admin/dashboard', [AdminController::class, 'index'])->middleware(['a
 //home Routing
 route::get('/home', [AdminController::class, 'home'])->middleware(['auth','admin'])->name('home');
 
-// category routing
-route::get('/category', [AdminController::class, 'category'])->middleware(['auth','admin'])->name('category');
 
-route::post('add_category', [AdminController::class, 'add_category'])->middleware(['auth','admin']);
 
-route::post('edit_category/{id}', [AdminController::class, 'edit_category'])->middleware(['auth','admin']);
-
-route::get('delete_category/{id}', [AdminController::class, 'delete_category'])->middleware(['auth','admin']);
-
-//products routing
+//products routing (coffees)
 route::get('products', [AdminController::class, 'products'])->middleware(['auth','admin'])->name('products');
 
 route::post('add_product', [AdminController::class, 'add_product'])->middleware(['auth','admin']);
 
+//snacks routing
+route::get('snacks', [AdminController::class, 'snacks'])->middleware(['auth','admin'])->name('snacks');
+
+route::post('add_snacks', [AdminController::class, 'add_snacks'])->middleware(['auth','admin']);
+
 //end of admin routes 
+
+
+
+//Start Home routes
+
+route::get('coffee_page',[HomeController::class, 'coffeePage'])->middleware(['auth', 'verified']);
+
+
+route::get('snack_page',[HomeController::class, 'snackPage'])->middleware(['auth', 'verified']);
+
+//end of Home routes
