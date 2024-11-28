@@ -34,10 +34,19 @@ route::get('products', [AdminController::class, 'products'])->middleware(['auth'
 
 route::post('add_product', [AdminController::class, 'add_product'])->middleware(['auth','admin']);
 
+route::post('update_coffee/{id}', [AdminController::class, 'update_coffee'])->middleware(['auth','admin']);
+
+Route::get('delete_coffee/{id}', [AdminController::class, 'delete_coffee'])->middleware(['auth', 'admin']);
+
+
 //snacks routing
 route::get('snacks', [AdminController::class, 'snacks'])->middleware(['auth','admin'])->name('snacks');
 
 route::post('add_snacks', [AdminController::class, 'add_snacks'])->middleware(['auth','admin']);
+
+route::post('update_snack/{id}', [AdminController::class, 'update_snack'])->middleware(['auth','admin']);
+
+Route::get('delete_snack/{id}', [AdminController::class, 'delete_snack'])->middleware(['auth', 'admin']);
 
 //end of admin routes 
 

@@ -63,6 +63,52 @@ class AdminController extends Controller
         return redirect()->back();
 
     }
+
+    public function update_coffee(Request $request, $id)
+    {
+
+        $coffees = Coffees::find($id);
+
+        $coffees->productName = $request->productName;
+        $coffees->description = $request->description;
+        $coffees->price = $request->price;
+        $coffees->size = $request->size;
+        $image = $request->image;
+
+
+        if($image)
+        {
+            $imagename = time().'.'.$image->getClientOriginalExtension();
+            $request->image->move('items', $imagename );
+
+            $coffees->image = $imagename;
+        }
+        $coffees->save();
+
+        sweetalert()->success('Edited Succesfully.');
+
+        return redirect()->back();
+    }
+
+    public function delete_coffee($id)
+    {
+        $coffees = Coffees::find($id);
+
+        $image_path = public_path('items/'.$coffees->image);
+
+        if(file_exists($image_path))
+        {
+            unlink($image_path);
+        }
+
+        $coffees->delete();
+
+
+        sweetalert()->success('Deleted Succesfully.');
+        return redirect()->back();
+    }
+
+
     // end of coffees controller
 
 
@@ -104,6 +150,53 @@ class AdminController extends Controller
         return redirect()->back();
 
     }
+
+
+    public function update_snack(Request $request, $id)
+    {
+
+        $snacks = Snacks::find($id);
+
+        $snacks->productName = $request->productName;
+        $snacks->description = $request->description;
+        $snacks->price = $request->price;
+        $snacks->size = $request->size;
+        $image = $request->image;
+
+
+        if($image)
+        {
+            $imagename = time().'.'.$image->getClientOriginalExtension();
+            $request->image->move('items', $imagename );
+
+            $snacks->image = $imagename;
+        }
+        $snacks->save();
+
+        sweetalert()->success('Edited Succesfully.');
+
+        return redirect()->back();
+    }
+
+
+    public function delete_snack($id)
+    {
+        $snacks = Snacks::find($id);
+
+        $image_path = public_path('items/'.$snacks->image);
+
+        if(file_exists($image_path))
+        {
+            unlink($image_path);
+        }
+
+        $snacks->delete();
+
+
+        sweetalert()->success('Deleted Succesfully.');
+        return redirect()->back();
+    }
+
 
     //end of snacks controller
 

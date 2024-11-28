@@ -157,10 +157,14 @@
                         
                         <!-- Button -->
                         <td>                          
-                        <button class="btn btn-success" >Edit</button>
+                          <button 
+                          class="btn btn-success" 
+                          onclick="openEditModalSnack({{ $snack->id }}, '{{ $snack->productName }}', '{{ $snack->description }}', {{ $snack->price }}, '{{ $snack->size }}', '{{ $snack->image }}')">
+                          Edit
+                        </button>
                         </td>
                         <td>
-                            <a  class="btn btn-error">Delete</a>
+                            <a href="{{url('delete_snack',$snack->id)}}" onclick="confirm(event)" class="btn btn-error">Delete</a>
                         </td>
                       </tr>
                       @endforeach
@@ -168,6 +172,45 @@
                     </tbody>
                   </table>
             </div>
+
+            <dialog id="my_modal_5" class="modal">
+              <div class="modal-box">
+                  <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onclick="closeModal('my_modal_5')">✕</button>
+                  <form id="editProductForm" method="POST" enctype="multipart/form-data">
+                      @csrf
+                      <div class="flex flex-col mb-2">
+                          <label class="mb-2 text-lg font-bold" for="productName">Product Name:</label>
+                          <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" id="editProductName" name="productName" required>
+                      </div>
+                      <div class="flex flex-col mb-2">
+                          <label class="mb-2 text-lg font-bold" for="text-description">Description:</label>
+                          <textarea placeholder="Type here" name="description" class="textarea textarea-bordered textarea-xs w-full max-w-xs" id="editDescription" rows="3" required></textarea>
+                      </div>
+                      <div class="flex flex-col mb-2">
+                          <label class="mb-2 text-lg font-bold" for="price">Price</label>
+                          <input type="number" placeholder="Type here" class="input input-bordered w-full max-w-xs" id="editPrice" name="price" required>
+                      </div>
+                      <div class="flex flex-col mb-2">
+                          <div class="input-group-prepend mb-2 text-lg font-bold">
+                              <span class="input-group-text">Size</span>
+                          </div>
+                          <select required name="size" class="select select-bordered w-full max-w-xs" id="editSize">
+                              <option disabled>Sizing</option>
+                              <option value="Small">Small</option>
+                              <option value="Medium">Medium</option>
+                              <option value="Large">Large</option>
+                          </select>
+                      </div>
+                      <div class="flex flex-col mb-2">
+                          <div class="input-group-prepend mb-2 text-lg font-bold">
+                              <span class="input-group-text">Product Image</span>
+                          </div>
+                          <input name="image" type="file" class="form-control">
+                      </div>
+                      <button type="submit" class="btn btn-success w-28 float-left">Save</button>
+                  </form>
+              </div>
+          </dialog>
             
 
         </div>
@@ -236,28 +279,58 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{-- opening modal --}}
-<script>
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.showModal();
-        } else {
-            console.error('Modal not found:', modalId);
-        }
-    }
-  </script>
-  {{-- Closing modal --}}
 
-  <script>
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.close();
-        }
-    }
-  </script>
+<script>
+  function openEditModalSnack(id, name, description, price, size, image) {
+
+     // Show modal
+     document.getElementById('my_modal_5').showModal();
+      // Populate form inputs
+      document.getElementById('editProductName').value = name;
+      document.getElementById('editDescription').value = description;
+      document.getElementById('editPrice').value = price;
+      document.getElementById('editSize').value = size;
+
+      // Update form action to include the product ID
+      document.getElementById('editProductForm').action = `/update_snack/${id}`;
+
      
+  }
+</script>
+
+
+{{-- Closing the modal --}}
+ <script>
+    function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.close();
+    } else {
+        console.error('Modal not found:', modalId);
+    }
+}
+  </script>
+
+<script>
+  function confirm(event) {
+      event.preventDefault();
+
+      var hrefAtt = event.currentTarget.getAttribute('href');
+      Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              window.location.href = hrefAtt;
+          }
+      });
+  }
+  </script>
 
 
 
